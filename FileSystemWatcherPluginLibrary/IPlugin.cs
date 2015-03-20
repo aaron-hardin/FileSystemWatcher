@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.IO;
 
 namespace FileWatcherPluginLibrary
@@ -7,9 +7,10 @@ namespace FileWatcherPluginLibrary
 	{
 		void Initialize();
 
-		IPluginConfiguration Configuration { get; }
-		List<IFolderConfiguration> WatchedFolders { get; }
+		IPluginConfiguration Configuration { get; set; }
 
 		void Trigger(IFolderConfiguration triggeredFolder, FileSystemEventArgs args);
+
+		Type ConfigurationType { get; }
 	}
 }

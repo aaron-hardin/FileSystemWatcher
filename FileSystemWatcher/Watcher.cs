@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using FileWatcherPluginLibrary;
+using Newtonsoft.Json;
 
 namespace FileWatcher
 {
@@ -32,8 +33,21 @@ namespace FileWatcher
 				try
 				{
 					plugin.Initialize();
+					if(File.Exists(plugin.GetType().Name + ".json"))
+					{
+						plugin.Configuration = (IPluginConfiguration) JsonConvert.DeserializeObject("", plugin.ConfigurationType);
+					}
+					else
+					{
+						plugin.Configuration = (IPluginConfiguration)Activator.CreateInstance(plugin.ConfigurationType);
+					}
 
-					foreach (IFolderConfiguration folderConfiguration in plugin.WatchedFolders)
+					if(plugin.Configuration.WatchedFolders == null || plugin.Configuration.WatchedFolders.Count == 0)
+					{
+						continue;
+					}
+
+					foreach (IFolderConfiguration folderConfiguration in plugin.Configuration.WatchedFolders)
 					{
 						// TODO: get settings from folder configuration
 						FileSystemWatcher watcher = new FileSystemWatcher();
