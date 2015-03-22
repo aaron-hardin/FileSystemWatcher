@@ -43,7 +43,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GenericPluginLoader.cs" />
     <Compile Include="Watcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
