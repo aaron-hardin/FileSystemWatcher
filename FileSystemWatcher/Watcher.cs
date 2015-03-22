@@ -11,25 +11,25 @@ namespace FileWatcher
     public class Watcher
     {
 	    public const string PluginDirectory = "plugins";
-	    private readonly List<IPlugin> plugins;
+	    private readonly List<IPlugin> _plugins;
 
 	    public Watcher()
 	    {
-		    plugins = LoadPlugins(PluginDirectory);
+		    _plugins = LoadPlugins(PluginDirectory);
 
 		    SetupPlugins();
 	    }
 
 	    public Watcher(List<IPlugin> plugins)
 	    {
-		    this.plugins = plugins;
+		    _plugins = plugins;
 
 			SetupPlugins();
 	    }
 
 	    private void SetupPlugins()
 	    {
-			foreach (IPlugin plugin in plugins)
+			foreach (IPlugin plugin in _plugins)
 			{
 				try
 				{
@@ -69,20 +69,21 @@ namespace FileWatcher
 
 	    private List<IPlugin> LoadPlugins(List<string> assemblies)
 	    {
-			List<IPlugin> plugins = new List<IPlugin>();
+			List<IPlugin> loadedPlugins = new List<IPlugin>();
 		    foreach(string assemblyPath in assemblies)
 		    {
-				Assembly assembly = Assembly.Load(assemblyPath);
+			    AssemblyName assemblyName = AssemblyName.GetAssemblyName(assemblyPath);
+				Assembly assembly = Assembly.Load(assemblyName);
 			    Type[] types = assembly.GetTypes();
 			    foreach(Type type in types)
 			    {
 				    if(type.IsClass && !type.IsAbstract && type.GetInterface(typeof(IPlugin).Name) != null)
 				    {
-					    plugins.Add(CreatePlugin(type));
+						loadedPlugins.Add(CreatePlugin(type));
 				    }
 			    }
 		    }
-		    return plugins;
+			return loadedPlugins;
 	    }
 
 	    private IPlugin CreatePlugin(Type pluginType)
@@ -94,11 +95,15 @@ namespace FileWatcher
 			// Load Configuration
 			if (File.Exists(pluginConfigPath))
 			{
-				plugin.Configuration = (IPluginConfiguration)JsonConvert.DeserializeObject(pluginConfigPath, plugin.ConfigurationType);
+				plugin.Configuration = (IPluginConfiguration)JsonConvert.DeserializeObject(File.ReadAllText(pluginConfigPath), plugin.ConfigurationType);
 			}
 			else
 			{
 				plugin.Configuration = (IPluginConfiguration)Activator.CreateInstance(plugin.ConfigurationType);
+				using(StreamWriter sw = new StreamWriter(pluginConfigPath))
+				{
+					sw.WriteLine(JsonConvert.SerializeObject(plugin.Configuration, Formatting.Indented));
+				}
 			}
 
 		    return plugin;
