@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9B4603C0-32DB-44B8-827E-0E414653A7BC}</ProjectGuid>
+    <ProjectGuid>{230BBC35-1863-46CC-9443-1CA5A10EF205}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FileWatcher</RootNamespace>
-    <AssemblyName>FileWatcher</AssemblyName>
+    <RootNamespace>CustomInstallHelper</RootNamespace>
+    <AssemblyName>CustomInstallHelper</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,11 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.ManagementConsole, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\MMC\v3.0\Microsoft.ManagementConsole.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -43,18 +44,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SysUtils.cs" />
-    <Compile Include="Watcher.cs" />
+    <Compile Include="InstallerAction.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FileSystemWatcherPluginLibrary\FileWatcherPluginLibrary.csproj">
-      <Project>{f8936887-4028-4aff-9c87-0c795798009a}</Project>
-      <Name>FileWatcherPluginLibrary</Name>
+    <ProjectReference Include="..\FileSystemWatcher\FileWatcher.csproj">
+      <Project>{9b4603c0-32db-44b8-827e-0e414653a7bc}</Project>
+      <Name>FileWatcher</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\FileWatcherSnapIn\FileWatcherSnapIn.csproj">
+      <Project>{e6ef2226-7576-43d1-b1d3-9b47d88195d2}</Project>
+      <Name>FileWatcherSnapIn</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

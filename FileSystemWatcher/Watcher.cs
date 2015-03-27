@@ -10,7 +10,21 @@ namespace FileWatcher
 {
     public class Watcher
     {
-	    public const string PluginDirectory = "plugins";
+	    public const string PluginDirectoryName = "plugins";
+
+		public static string PluginDirectory { get { return Path.Combine(AssemblyDirectory, PluginDirectoryName); } }
+
+	    public static string AssemblyDirectory
+	    {
+		    get
+		    {
+			    string codeBase = Assembly.GetAssembly(typeof(Watcher)).CodeBase;
+			    UriBuilder uri = new UriBuilder(codeBase);
+			    string path = Uri.UnescapeDataString(uri.Path);
+			    return Path.GetDirectoryName(path);
+		    }
+	    }
+
 	    private readonly List<IPlugin> _plugins;
 
 	    public Watcher()

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FileWatcher;
 using Microsoft.ManagementConsole;
 
 namespace FileWatcherSnapIn
@@ -17,7 +19,16 @@ namespace FileWatcherSnapIn
 
 		public ConfigurationSnapIn()
 		{
-			
+			RootNode = new ScopeNode();
+			RootNode.DisplayName = DisplayName;
+
+			FormViewDescription fvd = new FormViewDescription();
+			fvd.DisplayName = "Configuration";
+			fvd.ViewType = typeof(ConfigurationFormView);
+			fvd.ControlType = typeof(ConfigurationControl);
+
+			RootNode.ViewDescriptions.Add(fvd);
+			RootNode.ViewDescriptions.DefaultIndex = 0;
 		}
 	}
 }
