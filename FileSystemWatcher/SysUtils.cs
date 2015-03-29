@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FileWatcherPluginLibrary;
 
 namespace FileWatcher
 {
@@ -11,7 +12,7 @@ namespace FileWatcher
 	{
 		public static void ReportErrorMessageToEventLog(string addedMessage, Exception exception)
 		{
-			ReportErrorToEventLog(DefaultEventSourceIdentifier, addedMessage, exception);
+			ReportErrorToEventLog(Constants.DefaultEventSourceIdentifier, addedMessage, exception);
 		}
 
 		private static void ReportErrorToEventLog(string eventSource, string addedMessage, Exception exception)
@@ -77,7 +78,5 @@ namespace FileWatcher
 				// Ignore.
 			}
 		}
-
-		public const string DefaultEventSourceIdentifier = "File Watcher";
 	}
 }

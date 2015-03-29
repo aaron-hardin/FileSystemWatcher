@@ -30,39 +30,41 @@
 		{
 			this.ConfigurationTabControl = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
-			this.tabPage2 = new System.Windows.Forms.TabPage();
+			this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
 			this.ConfigurationTabControl.SuspendLayout();
+			this.tabPage1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// ConfigurationTabControl
 			// 
 			this.ConfigurationTabControl.Controls.Add(this.tabPage1);
-			this.ConfigurationTabControl.Controls.Add(this.tabPage2);
-			this.ConfigurationTabControl.Location = new System.Drawing.Point(3, 3);
+			this.ConfigurationTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.ConfigurationTabControl.Location = new System.Drawing.Point(0, 0);
 			this.ConfigurationTabControl.Name = "ConfigurationTabControl";
 			this.ConfigurationTabControl.SelectedIndex = 0;
-			this.ConfigurationTabControl.Size = new System.Drawing.Size(937, 435);
+			this.ConfigurationTabControl.Size = new System.Drawing.Size(943, 441);
 			this.ConfigurationTabControl.TabIndex = 0;
 			// 
 			// tabPage1
 			// 
+			this.tabPage1.Controls.Add(this.propertyGrid1);
 			this.tabPage1.Location = new System.Drawing.Point(4, 22);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage1.Size = new System.Drawing.Size(929, 409);
+			this.tabPage1.Size = new System.Drawing.Size(935, 415);
 			this.tabPage1.TabIndex = 0;
-			this.tabPage1.Text = "tabPage1";
+			this.tabPage1.Text = "template";
 			this.tabPage1.UseVisualStyleBackColor = true;
 			// 
-			// tabPage2
+			// propertyGrid1
 			// 
-			this.tabPage2.Location = new System.Drawing.Point(4, 22);
-			this.tabPage2.Name = "tabPage2";
-			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(929, 409);
-			this.tabPage2.TabIndex = 1;
-			this.tabPage2.Text = "tabPage2";
-			this.tabPage2.UseVisualStyleBackColor = true;
+			this.propertyGrid1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.propertyGrid1.Location = new System.Drawing.Point(3, 6);
+			this.propertyGrid1.Name = "propertyGrid1";
+			this.propertyGrid1.Size = new System.Drawing.Size(926, 403);
+			this.propertyGrid1.TabIndex = 0;
 			// 
 			// ConfigurationControl
 			// 
@@ -72,6 +74,7 @@
 			this.Name = "ConfigurationControl";
 			this.Size = new System.Drawing.Size(943, 441);
 			this.ConfigurationTabControl.ResumeLayout(false);
+			this.tabPage1.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -80,6 +83,6 @@
 
 		private System.Windows.Forms.TabControl ConfigurationTabControl;
 		private System.Windows.Forms.TabPage tabPage1;
-		private System.Windows.Forms.TabPage tabPage2;
+		private System.Windows.Forms.PropertyGrid propertyGrid1;
 	}
 }

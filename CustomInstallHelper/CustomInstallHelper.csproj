@@ -50,6 +50,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FileSystemWatcherPluginLibrary\FileWatcherPluginLibrary.csproj">
+      <Project>{f8936887-4028-4aff-9c87-0c795798009a}</Project>
+      <Name>FileWatcherPluginLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FileSystemWatcher\FileWatcher.csproj">
       <Project>{9b4603c0-32db-44b8-827e-0e414653a7bc}</Project>
       <Name>FileWatcher</Name>

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -14,7 +13,8 @@ namespace FileWatcherSnapIn
 {
 	public partial class ConfigurationControl : UserControl, IFormViewControl
 	{
-		private ConfigurationFormView formView = null;
+		private ConfigurationFormView formView;
+		public const string ActionSave = "Save";
 
 		public string PluginPath
 		{
@@ -28,6 +28,7 @@ namespace FileWatcherSnapIn
 		{
 			InitializeComponent();
 
+			Dock = DockStyle.Fill;
 			ConfigurationTabControl.TabPages.Clear();
 
 			try
@@ -36,19 +37,7 @@ namespace FileWatcherSnapIn
 
 				foreach (Type configurationType in configurationTypes)
 				{
-					TabPage tp = new TabPage(configurationType.Name);
-					PropertyGrid pg = new PropertyGrid();
-					pg.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
-					string path = Path.Combine(PluginPath, configurationType.Name + ".json");
-					if (File.Exists(path))
-					{
-						pg.SelectedObject = JsonConvert.DeserializeObject(File.ReadAllText(path), configurationType);
-					}
-					else
-					{
-						pg.SelectedObject = Activator.CreateInstance(configurationType);
-					}
-					tp.Controls.Add(pg);
+					TabPage tp = GetTabPage(configurationType);
 					ConfigurationTabControl.TabPages.Add(tp);
 				}
 			}
@@ -58,11 +47,68 @@ namespace FileWatcherSnapIn
 			}
 		}
 
+		public void DelegateAction(string commandName)
+		{
+			switch(commandName)
+			{
+				case ActionSave:
+					try
+					{
+						Save();
+					}
+					catch(Exception e)
+					{
+						MessageBox.Show("Failed to save configuration\n" + e);
+					}
+					break;
+			}
+		}
+
+		private void Save()
+		{
+			TabPage tp = ConfigurationTabControl.SelectedTab;
+			PropertyGrid pg = (PropertyGrid)tp.Controls[0];
+			object selectedObject = pg.SelectedObject;
+			string path = Path.Combine(PluginPath, tp.Name + ".json");
+			using (StreamWriter sw = new StreamWriter(path))
+			{
+				sw.WriteLine(JsonConvert.SerializeObject(selectedObject, Formatting.Indented));
+			}
+		}
+
+		private TabPage GetTabPage(Type configurationType)
+		{
+			TabPage tp = new TabPage(configurationType.Name);
+			tp.Name = configurationType.Name;
+			PropertyGrid pg = new PropertyGrid();
+			pg.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
+			pg.Dock = DockStyle.Fill;
+			string path = Path.Combine(PluginPath, configurationType.Name + ".json");
+			if (File.Exists(path))
+			{
+				pg.SelectedObject = JsonConvert.DeserializeObject(File.ReadAllText(path), configurationType);
+			}
+			else
+			{
+				object newObject = Activator.CreateInstance(configurationType);
+				pg.SelectedObject = newObject;
+				using (StreamWriter sw = File.CreateText(path))
+				{
+					sw.WriteLine(JsonConvert.SerializeObject(newObject, Formatting.Indented));
+				}
+			}
+			tp.Controls.Add(pg);
+
+			return tp;
+		}
+
 		public void Initialize(FormView view)
 		{
 			formView = (ConfigurationFormView) view;
 
 			formView.SelectionData.ActionsPaneItems.Clear();
+			Microsoft.ManagementConsole.Action action = new Microsoft.ManagementConsole.Action("Save Configuration", "Save the current configuration.", -1, ActionSave);
+			formView.ActionsPaneItems.Add(action);
 		}
 
 		private List<Type> GetPluginConfigurationTypes(string pluginDirectory)

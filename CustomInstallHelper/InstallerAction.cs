@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using FileWatcher;
+using FileWatcherPluginLibrary;
 using FileWatcherSnapIn;
 using Microsoft.Win32;
 
@@ -92,7 +93,7 @@ namespace CustomInstallHelper
 
 		private static string MmcSubkeyName
 		{
-			get { return "FX:" + ConfigurationSnapIn.SnapInGuid; }
+			get { return "FX:" + Constants.SnapInGuid; }
 		}
 
 		private static void SetMMCSnapIn()
@@ -111,14 +112,14 @@ namespace CustomInstallHelper
 					snapInKey.SetValue("UseCustomHelp", 00000000, RegistryValueKind.DWord);
 					snapInKey.SetValue("Type", typeof(ConfigurationSnapIn).AssemblyQualifiedName, RegistryValueKind.String);
 					snapInKey.SetValue("ApplicationBase", MyPath(), RegistryValueKind.String);
-					snapInKey.SetValue("NameString", ConfigurationSnapIn.DisplayName, RegistryValueKind.String);
-					snapInKey.SetValue("Description", ConfigurationSnapIn.Description, RegistryValueKind.String);
+					snapInKey.SetValue("NameString", Constants.DisplayName, RegistryValueKind.String);
+					snapInKey.SetValue("Description", Constants.Description, RegistryValueKind.String);
 					snapInKey.SetValue("ModuleName", typeof(ConfigurationSnapIn).Assembly.GetName(), RegistryValueKind.String);
 					snapInKey.SetValue("AssemblyName", typeof(ConfigurationSnapIn).Name, RegistryValueKind.String);
 					snapInKey.SetValue("RuntimeVersion", "v4.0.30319", RegistryValueKind.String);
 					snapInKey.SetValue("FxVersion", "3.0.0.0", RegistryValueKind.String);
 					snapInKey.SetValue("About", "{00000000-0000-0000-0000-000000000000}", RegistryValueKind.String);
-					snapInKey.SetValue("Provider", ConfigurationSnapIn.Vendor, RegistryValueKind.String);
+					snapInKey.SetValue("Provider", Constants.Vendor, RegistryValueKind.String);
 				}
 			}
 		}

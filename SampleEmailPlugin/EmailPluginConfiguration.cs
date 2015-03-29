@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using FileWatcherPluginLibrary;
+using Newtonsoft.Json;
 
 namespace SampleEmailPlugin
 {
 	public class EmailPluginConfiguration : IPluginConfiguration
 	{
-		private List<WatchedFolderConfiguration> watchedFolders;
+		public List<WatchedFolderConfiguration> watchedFolders { get; set; }
 		public string EmailAddress { get; set; }
 
 		public EmailPluginConfiguration()
@@ -14,6 +16,10 @@ namespace SampleEmailPlugin
 			watchedFolders = new List<WatchedFolderConfiguration>();
 		}
 
+		// TODO: abstract specific tags to interface if possible
+		// that way the developer building a plugin does not need to worry about this.
+		[Browsable(false)]
+		[JsonIgnore]
 		public List<IFolderConfiguration> WatchedFolders
 		{
 			get { return watchedFolders.Cast<IFolderConfiguration>().ToList(); }
