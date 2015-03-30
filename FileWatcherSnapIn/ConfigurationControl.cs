@@ -126,13 +126,16 @@ namespace FileWatcherSnapIn
 			{
 				AssemblyName assemblyName = AssemblyName.GetAssemblyName(assemblyPath);
 				Assembly assembly = Assembly.Load(assemblyName);
-				Type[] types = assembly.GetTypes();
-				foreach (Type type in types)
+				List<Type> types = assembly.GetConfigurationTypes();
+
+				if(types.Count > 1)
 				{
-					if (type.IsClass && !type.IsAbstract && type.GetInterface(typeof(IPluginConfiguration).Name) != null)
-					{
-						configurationTypes.Add(type);
-					}
+					throw new Exception(string.Format("Expected only one configuration type in assembly {0}.", assembly.GetName()));
+				}
+
+				if(types.Count == 1)
+				{
+					configurationTypes.Add(types[0]);
 				}
 			}
 			return configurationTypes;

@@ -54,10 +54,10 @@ namespace FileWatcher
 
 		private static void ReportErrorToEventLog(string eventSource, string message)
 		{
-			ReportToEventLog(eventSource, message, EventLogEntryType.Error);
+			ReportToEventLog(message, EventLogEntryType.Error, eventSource);
 		}
 
-		public static void ReportToEventLog(string eventSource, string message, EventLogEntryType type)
+		public static void ReportToEventLog(string message, EventLogEntryType type = EventLogEntryType.Information, string eventSource = Constants.DefaultEventSourceIdentifier)
 		{
 			if(!EventLog.SourceExists(eventSource))
 			{

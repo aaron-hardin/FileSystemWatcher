@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
+using FileWatcher;
 using FileWatcherPluginLibrary;
 
 namespace SampleEmailPlugin
@@ -28,7 +28,11 @@ namespace SampleEmailPlugin
 		public void Trigger(IFolderConfiguration triggeredFolder, FileSystemEventArgs args)
 		{
 			// TODO: send email
-			Console.WriteLine("{0} has triggered {1} with change type {2}", args.Name, triggeredFolder.Path, args.ChangeType);
+			SysUtils.ReportToEventLog(
+				string.Format("{0} has triggered {1} with change type {2}", 
+					args.Name, 
+					triggeredFolder.Path,
+					args.ChangeType));
 		}
 
 	    public Type ConfigurationType
