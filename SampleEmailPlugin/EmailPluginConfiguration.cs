@@ -2,15 +2,24 @@
 using System.ComponentModel;
 using System.Linq;
 using FileWatcherPluginLibrary;
+using JetBrains.Annotations;
 using Newtonsoft.Json;
 
 namespace SampleEmailPlugin
 {
 	public class EmailPluginConfiguration : IPluginConfiguration
 	{
-		public List<WatchedFolderConfiguration> watchedFolders { get; set; }
+		/// <summary>
+		/// Used by the Configuration Manager to edit the configurations
+		/// </summary>
+		[UsedImplicitly]
+		public List<WatchedFolderConfiguration> WatchedFolderConfigurations { get; set; }
+		
 		public string EmailAddress { get; set; }
 
+		/// <summary>
+		/// Simple encryption just to show the idea, don't want anyone reading our password on the screen.
+		/// </summary>
 		private string password;
 		public string Password
 		{
@@ -27,7 +36,7 @@ namespace SampleEmailPlugin
 
 		public EmailPluginConfiguration()
 		{
-			watchedFolders = new List<WatchedFolderConfiguration>();
+			WatchedFolderConfigurations = new List<WatchedFolderConfiguration>();
 		}
 
 		// TODO: abstract specific tags to interface if possible
@@ -36,7 +45,7 @@ namespace SampleEmailPlugin
 		[JsonIgnore]
 		public List<IFolderConfiguration> WatchedFolders
 		{
-			get { return watchedFolders.Cast<IFolderConfiguration>().ToList(); }
+			get { return WatchedFolderConfigurations.Cast<IFolderConfiguration>().ToList(); }
 		}
 
 		public bool WatchConfiguration

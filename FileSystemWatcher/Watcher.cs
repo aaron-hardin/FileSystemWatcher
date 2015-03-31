@@ -25,16 +25,16 @@ namespace FileWatcher
 		    }
 	    }
 
-	    private readonly List<IPlugin> _plugins;
+	    private readonly List<IPlugin> plugins;
 
 	    public Watcher()
 	    {
 			SysUtils.ReportToEventLog("DEBUG: Creating watcher, loading plugins...");
 		    
-			_plugins = LoadPlugins(PluginDirectory);
+			plugins = LoadPlugins(PluginDirectory);
 
 		    SysUtils.ReportToEventLog("DEBUG: Creating watcher, setting up plugins...\n\t" +
-		                              string.Join("\n\t", _plugins.Select(pl => pl.ConfigurationType.Name)));
+		                              string.Join("\n\t", plugins.Select(pl => pl.ConfigurationType.Name)));
 
 		    SetupPlugins();
 
@@ -43,14 +43,14 @@ namespace FileWatcher
 
 	    public Watcher(List<IPlugin> plugins)
 	    {
-		    _plugins = plugins;
+		    this.plugins = plugins;
 
 			SetupPlugins();
 	    }
 
 	    private void SetupPlugins()
 	    {
-			foreach (IPlugin plugin in _plugins)
+			foreach (IPlugin plugin in plugins)
 			{
 				try
 				{

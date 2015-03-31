@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 
 namespace FileWatcherSnapIn
 {
-	public partial class ConfigurationControl : UserControl, IFormViewControl
+	public sealed partial class ConfigurationControl : UserControl, IFormViewControl
 	{
 		private ConfigurationFormView formView;
 		public const string ActionSave = "Save";

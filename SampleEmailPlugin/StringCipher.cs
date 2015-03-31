@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace SampleEmailPlugin
 {
@@ -15,17 +12,19 @@ namespace SampleEmailPlugin
 		// 32 bytes long.  Using a 16 character string here gives us 32 bytes when converted to a byte array.
 		private static readonly byte[] initVectorBytes = Encoding.ASCII.GetBytes("tu89geji340t89u2");
 
-		private const string passPhrase = "emailPassEncryption";
+		private const string PASS_PHRASE = "emailPassEncryption";
 
 		// Artifact of encryption algorithm, used to determine if encrypted
-		private const string padding = "==";
+		private const string PADDING = "==";
 
 		// This constant is used to determine the keysize of the encryption algorithm.
-		private const int keysize = 256;
+		private const int KEY_SIZE = 256;
+
+		private static readonly byte[] saltArray = Encoding.ASCII.GetBytes("this is my salt");
 
 		public static bool IsEncrypted(string text)
 		{
-			return text.EndsWith(padding);
+			return text.EndsWith(PADDING);
 		}
 
 		public static string Encrypt(string plainText)
@@ -36,9 +35,10 @@ namespace SampleEmailPlugin
 			}
 
 			byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
-			using (PasswordDeriveBytes password = new PasswordDeriveBytes(passPhrase, null))
+			
+			using (Rfc2898DeriveBytes password = new Rfc2898DeriveBytes(PASS_PHRASE, saltArray))
 			{
-				byte[] keyBytes = password.GetBytes(keysize / 8);
+				byte[] keyBytes = password.GetBytes(KEY_SIZE / 8);
 				using (RijndaelManaged symmetricKey = new RijndaelManaged())
 				{
 					symmetricKey.Mode = CipherMode.CBC;
@@ -61,15 +61,15 @@ namespace SampleEmailPlugin
 
 		public static string Decrypt(string cipherText)
 		{
-			if(!cipherText.EndsWith(padding))
+			if(!cipherText.EndsWith(PADDING))
 			{
 				return cipherText;
 			}
 			
 			byte[] cipherTextBytes = Convert.FromBase64String(cipherText);
-			using (PasswordDeriveBytes password = new PasswordDeriveBytes(passPhrase, null))
+			using (Rfc2898DeriveBytes password = new Rfc2898DeriveBytes(PASS_PHRASE, saltArray))
 			{
-				byte[] keyBytes = password.GetBytes(keysize / 8);
+				byte[] keyBytes = password.GetBytes(KEY_SIZE / 8);
 				using (RijndaelManaged symmetricKey = new RijndaelManaged())
 				{
 					symmetricKey.Mode = CipherMode.CBC;

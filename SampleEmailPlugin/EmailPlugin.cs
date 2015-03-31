@@ -29,8 +29,6 @@ namespace SampleEmailPlugin
 
 		public void Trigger(IFolderConfiguration triggeredFolder, FileSystemEventArgs args)
 		{
-			// TODO: send email
-
 			MailAddress fromAddress = new MailAddress(configuration.EmailAddress, "Email Plugin");
 			MailAddress toAddress = new MailAddress(configuration.EmailAddress);
 			string fromPassword = configuration.DecryptedPassword;

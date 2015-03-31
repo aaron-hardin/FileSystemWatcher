@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
 using FileWatcher;
 using FileWatcherPluginLibrary;
 using NUnit.Framework;
@@ -24,6 +19,8 @@ namespace Tests
 			((EmailPluginConfiguration) testPlugin.Configuration).EmailAddress = "asdf";
 			plugins.Add(testPlugin);
 			Watcher watcher = new Watcher(plugins);
+
+			Assert.NotNull(watcher);
 		}
 
 		[Test]
@@ -59,6 +56,8 @@ namespace Tests
 				Path.Combine(pluginDir, "FileWatcherPluginLibrary.dll"));
 
 			Watcher watcher = new Watcher();
+
+			Assert.NotNull(watcher);
 		}
 
 		[Test]

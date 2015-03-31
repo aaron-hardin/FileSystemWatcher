@@ -1,6 +1,6 @@
 ﻿namespace FileWatcherSnapIn
 {
-	partial class ConfigurationControl
+	sealed partial class ConfigurationControl
 	{
 		/// <summary> 
 		/// Required designer variable.
