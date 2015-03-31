@@ -46,6 +46,7 @@
     <Compile Include="EmailPlugin.cs" />
     <Compile Include="EmailPluginConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StringCipher.cs" />
     <Compile Include="WatchedFolderConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -77,7 +77,18 @@ namespace FileWatcher
 
 						IFolderConfiguration configuration = folderConfiguration;
 						IPlugin plugin1 = plugin;
-						watcher.Created += (sender, args) => { plugin1.Trigger(configuration, args); };
+						watcher.Created += (sender, args) =>
+						{
+							try
+							{
+								// Don't trust plugins
+								plugin1.Trigger(configuration, args);
+							}
+							catch(Exception e)
+							{
+								SysUtils.ReportErrorMessageToEventLog("Error triggering plugin.", e);
+							}
+						};
 
 						SysUtils.ReportToEventLog("DEBUG: FileWatcher::Watcher::SetupPlugins watching " + folderConfiguration.Path);
 					}

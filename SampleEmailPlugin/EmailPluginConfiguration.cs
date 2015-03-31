@@ -11,6 +11,20 @@ namespace SampleEmailPlugin
 		public List<WatchedFolderConfiguration> watchedFolders { get; set; }
 		public string EmailAddress { get; set; }
 
+		private string password;
+		public string Password
+		{
+			get { return password ?? string.Empty; }
+			set { password = StringCipher.Encrypt(value); }
+		}
+
+		[Browsable(false)]
+		[JsonIgnore]
+		internal string DecryptedPassword
+		{
+			get { return StringCipher.Decrypt(Password); }
+		}
+
 		public EmailPluginConfiguration()
 		{
 			watchedFolders = new List<WatchedFolderConfiguration>();

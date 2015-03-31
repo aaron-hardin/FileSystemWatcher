@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using FileWatcher;
@@ -57,6 +59,18 @@ namespace Tests
 				Path.Combine(pluginDir, "FileWatcherPluginLibrary.dll"));
 
 			Watcher watcher = new Watcher();
+		}
+
+		[Test]
+		public void Encryption()
+		{
+			string str = "asdf";
+			string encrypted = StringCipher.Encrypt(str);
+
+			Console.WriteLine("Unencrypted: {0}, Encrypted: {1}", str, encrypted);
+			Assert.False(StringCipher.IsEncrypted(str));
+			Assert.True(StringCipher.IsEncrypted(encrypted));
+			Assert.AreEqual(str, StringCipher.Decrypt(encrypted));
 		}
     }
 }
